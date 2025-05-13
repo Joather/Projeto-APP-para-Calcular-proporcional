@@ -3,7 +3,7 @@ vencimento_atual = int(input('Digite o vencimento atual: '))
 vencimento_novo = int(input('Digite o novo vencimento: '))
 valor_plano = float(input('Digite o valor atual do plano: '))
 
-dias_proporcionais = vencimento_novo - vencimento_atual
+dias_proporcionais = abs(vencimento_novo - vencimento_atual)
 
 
 diaria_plano = valor_plano / 30
