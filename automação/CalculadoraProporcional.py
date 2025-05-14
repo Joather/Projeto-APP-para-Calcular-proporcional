@@ -1,4 +1,4 @@
-
+import customtkinter as ctk
 vencimento_atual = int(input('Digite o vencimento atual: '))
 vencimento_novo = int(input('Digite o novo vencimento: '))
 valor_plano = float(input('Digite o valor atual do plano: '))
