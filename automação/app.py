@@ -7,7 +7,7 @@ def calcular_proporcional():
         # Captura os dados digitados
         vencimento_atual = int(campo_vencimento1.get())
         vencimento_novo = int(campo_vencimento2.get())
-        valor_plano = float(campo_valor.get())
+        valor_plano = float(campo_valor.get().replace(',', '.'))
 
         # Lógica do cálculo
         if(vencimento_atual < vencimento_novo):
@@ -21,8 +21,24 @@ def calcular_proporcional():
 
         # Exibir os resultados
         resultado.configure(text=f"Proporcional: R$ {proporcional:.2f}\nValor total: R$ {valor_total:.2f}")
+        texto = (
+            f"Cliente solicita alteração na data de vencimento, indo de dia {vencimento_atual}, "
+            f"para o dia {vencimento_novo}, proporcional de {dias_proporcionais} dias utilizados, "
+            f"no valor de R${proporcional:.2f}, valor total de R${valor_total:.2f}."
+        )
+        frase_final.configure(text=texto)
+        global texto_pronto
+        texto_pronto = texto # guarda para o botão "Copiar"
     except ValueError:
         messagebox.showerror("Erro", "Digite apenas números válidos.")
+
+def copiar_texto():
+    try:
+        app.clipboard_clear()
+        app.clipboard_append(texto_pronto)
+        messagebox.showinfo("Copiado", "Texto copiado para a área de transferência!")
+    except:
+        messagebox.showerror("Erro", "Nenhum texto para copiar ainda.")
 
 # Configuração da aparência
 ctk.set_appearance_mode('dark') # Modo escuro
@@ -31,7 +47,7 @@ ctk.set_default_color_theme('green') # Cor dos botões e destaques
 # Criação da janela principal
 app = ctk.CTk()
 app.title('Calculador de proporcional')
-app.geometry('400x400')
+app.geometry('600x600')
 
 # Criação dos campos
 # label e campo: vencimento atual
@@ -59,6 +75,14 @@ botao.pack(pady=15)
 # Label de resultado
 resultado = ctk.CTkLabel(app, text='', font=('Arial', 14))
 resultado.pack(pady=10)
+
+# Label do texto final
+frase_final = ctk.CTkLabel(app, text='', font=('Atial', 12), wraplength=380, justify='left')
+frase_final.pack(pady=10)
+
+# Botão de copiar
+botao_copiar = ctk.CTkButton(app, text='Copiar texto', command=copiar_texto,)
+botao_copiar.pack(pady=10)
 
 # Iniciar a aplicação
 app.mainloop()
