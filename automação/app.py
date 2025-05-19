@@ -77,7 +77,7 @@ resultado = ctk.CTkLabel(app, text='', font=('Arial', 14))
 resultado.pack(pady=10)
 
 # Label do texto final
-frase_final = ctk.CTkLabel(app, text='', font=('Atial', 12), wraplength=380, justify='left')
+frase_final = ctk.CTkLabel(app, text='', font=('Arial', 12), wraplength=380, justify='left')
 frase_final.pack(pady=10)
 
 # Botão de copiar
