@@ -1,6 +1,23 @@
 import customtkinter as ctk
 from tkinter import messagebox
 
+# Configuração da aparência
+ctk.set_appearance_mode('dark') # Modo escuro
+ctk.set_default_color_theme('green') # Cor dos botões e destaques
+
+# Criação da janela principal
+app = ctk.CTk()
+app.title('Calculador de proporcional')
+app.geometry('600x600')
+
+# Configurando as abas
+tabview = ctk.CTkTabview(app, width=600)
+tabview.pack(pady=20)
+tabview.add("Alteração de Plano")
+tabview.add("Alteração de Vencimento")
+
+
+# --- ABA 1: Alteração de Plano
 # Função que será executada ao clicar no botão
 def calcular_proporcional():
     try:
@@ -39,15 +56,6 @@ def copiar_texto():
         messagebox.showinfo("Copiado", "Texto copiado para a área de transferência!")
     except:
         messagebox.showerror("Erro", "Nenhum texto para copiar ainda.")
-
-# Configuração da aparência
-ctk.set_appearance_mode('dark') # Modo escuro
-ctk.set_default_color_theme('green') # Cor dos botões e destaques
-
-# Criação da janela principal
-app = ctk.CTk()
-app.title('Calculador de proporcional')
-app.geometry('600x600')
 
 # Criação dos campos
 # label e campo: vencimento atual
