@@ -1,183 +1,286 @@
+# calculadora_proporcional.py
+
 import customtkinter as ctk
 from tkinter import messagebox
 
-# Configuração da aparência
-ctk.set_appearance_mode('dark') # Modo escuro
-ctk.set_default_color_theme('green') # Cor dos botões e destaques
+# Configuração inicial
+ctk.set_appearance_mode("dark")
+ctk.set_default_color_theme("green")
 
 app = ctk.CTk()
 app.title("Calculadora de Proporcional")
-app.geometry("620x650")
+app.geometry("640x650")
 
-# Configurando as abas
+# Tabs
 tabview = ctk.CTkTabview(app, width=600)
-tabview.pack(pady=20)
-tabview.add("Alteração de Plano")
-tabview.add("Alteração de Vencimento")
+tabview.pack(pady=10)
+tabview.add("Alteracao de Plano")
+tabview.add("Alteracao de Vencimento")
+tabview.add("Desconto ou Cancelamento")
 
+# Variáveis globais para copiar
+texto_cliente_plano = ""
+texto_ordem_plano = ""
+texto_cliente_vencimento = ""
+texto_ordem_vencimento = ""
+texto_cliente_desconto = ""
+texto_ordem_cancelamento = ""
+texto_cliente_dias = ""
+texto_ordem_dias = ""
 
-# --- ABA 1: Alteração de Plano
-# Função para o calculo da mudança de plano
-def calcularProporcionalPlano():
+# -----------------------------
+# Função: Calcular Alteracao de Plano
+# -----------------------------
+def calcular_alteracao_plano():
+    global texto_cliente_plano, texto_ordem_plano
     try:
-        planoAtual = float(entryValorPlanoAtual.get().replace(',', '.'))
-        planoNovo = float(entryValorPlanoNovo.get().replace(',', '.'))
-        diaDoVencimento = int(entryDiaVencimento.get())
-        diaAlteracao = int(entryDiaAlteracao.get())
+        valor_plano_atual = float(entry_valor_plano_atual.get().replace(",", "."))
+        valor_plano_novo = float(entry_valor_plano_novo.get().replace(",", "."))
+        dia_vencimento = int(entry_dia_vencimento.get())
+        dia_alteracao = int(entry_dia_alteracao.get())
 
-        if diaAlteracao > diaDoVencimento:
-            diasPlanoAtual = diaAlteracao - diaDoVencimento
-            diasPlanoNovo = (diaDoVencimento - diaAlteracao) + 30
+        if dia_alteracao > dia_vencimento:
+            dias_plano_atual = dia_alteracao - dia_vencimento
+            dias_plano_novo = 30 - dias_plano_atual
         else:
-            diasPlanoAtual = (diaAlteracao - diaDoVencimento) + 30
-            diasPlanoNovo = diaDoVencimento - diaAlteracao
+            dias_plano_atual = 30 - (dia_vencimento - dia_alteracao)
+            dias_plano_novo = 30 - dias_plano_atual
 
-        proporcionalPlanoAtual = (planoAtual / 30) * diasPlanoAtual
-        proporcionalPlanoNovo = (planoNovo / 30) * diasPlanoNovo
-        valorTotal = proporcionalPlanoAtual + proporcionalPlanoNovo
+        proporcional_atual = (valor_plano_atual / 30) * dias_plano_atual
+        proporcional_novo = (valor_plano_novo / 30) * dias_plano_novo
+        valor_total = proporcional_atual + proporcional_novo
 
-        texto = (
-            f"Proporcional do plano atual: R${proporcionalPlanoAtual:.2f}\n"
-            f"Referente a {diasPlanoAtual} utilizados do plano antigo\n\n"
-            f"Proporcional do novo plano: R${proporcionalPlanoNovo:.2f}\n"
-            f"Referente a {diasPlanoNovo}, utilizados do plano novo\n\n"
-            f"VALOR TOTAL: R${valorTotal:.2f}"
+        texto_cliente_plano = (
+            f"Realizando a troca de plano no dia {dia_alteracao}, o valor proporcional a ser pago será:",
+            f"\n- {dias_plano_atual} dias do plano atual (R$ {proporcional_atual:.2f})",
+            f"\n- {dias_plano_novo} dias do novo plano (R$ {proporcional_novo:.2f})",
+            f"\nTotal na próxima fatura: R$ {valor_total:.2f}, que será para a data {dia_vencimento}/XX\n\n"
+            "Posso seguir com a alteração?"
         )
-        label_resultado1.configure(text=texto)
-        global texto_pronto
-        texto_pronto = texto # Guarda para o botão copiar
+        texto_cliente_plano = "".join(texto_cliente_plano)
+
+        texto_ordem_plano = (
+            f"Plano atual: R$ {valor_plano_atual:.2f}\n",
+            f"Novo plano: R$ {valor_plano_novo:.2f}\n",
+            f"Dia da alteracao: {dia_alteracao}\n",
+            f"Dias plano atual: {dias_plano_atual} -> R$ {proporcional_atual:.2f}\n",
+            f"Dias novo plano: {dias_plano_novo} -> R$ {proporcional_novo:.2f}\n",
+            f"Total proporcional: R$ {valor_total:.2f}"
+        )
+        texto_ordem_plano = "".join(texto_ordem_plano)
+
+        label_texto_cliente1.configure(text=texto_cliente_plano)
+        label_texto_ordem1.configure(text=texto_ordem_plano)
+
     except ValueError:
-        messagebox.showerror(("Erro"))
+        messagebox.showerror("Erro", "Digite valores numéricos válidos.")
 
-# --- ABA 1: Layout ---
-frame1 = tabview.tab("Alteração de Plano")
-# Label e entrada de dados - ValorPlanoAtual
-labelValorPlanoAtual = ctk.CTkLabel(frame1, text="Digite o valor do plano atual")
-labelValorPlanoAtual.pack(pady=(20, 0))
-entryValorPlanoAtual = ctk.CTkEntry(frame1, placeholder_text="Digite o valor do plano atual")
-entryValorPlanoAtual.pack(pady='0')
-# Label e entrada de dados - ValorPlanoNovo
-labelValorPlanoNovo = ctk.CTkLabel(frame1, text="Digite o valor do novo plano")
-labelValorPlanoNovo.pack(pady=(20, 0))
-entryValorPlanoNovo = ctk.CTkEntry(frame1, placeholder_text="Digite o valor do novo plano")
-entryValorPlanoNovo.pack(pady ='0')
-# Label e entrada de dados - DiaDoVencimento
-labelDiaVencimento = ctk.CTkLabel(frame1, text="Digite o dia do vencimento.")
-labelDiaVencimento.pack(pady=(20, 0))
-entryDiaVencimento = ctk.CTkEntry(frame1, placeholder_text="Digite o dia do vencimento.")
-entryDiaVencimento.pack(pady='0')
-# Label e entrada de dados - DiaDaAlteração
-labelDiaAlteracao = ctk.CTkLabel(frame1, text="Digite o dia da alteração")
-labelDiaAlteracao.pack(pady=(10, 0))
-entryDiaAlteracao = ctk.CTkEntry(frame1, placeholder_text="Digite o dia da alteração")
-entryDiaAlteracao.pack(pady='0')
-# Botão para calcular
-botao_calcular_plano = ctk.CTkButton(frame1, text="Calcular", command=calcularProporcionalPlano)
-botao_calcular_plano.pack(pady=10 )
-# Mostrar o resultado
-label_resultado1 = ctk.CTkLabel(frame1, text='', font=('Arial', 14))
-label_resultado1.pack(pady='10')
-
-# --- ABA 2: Mudança de Vencimento ---
-# Função que será executada ao clicar no botão
-def calcularProporcionalVencimento():
+# -----------------------------
+# Função: Calcular Alteracao de Vencimento
+# -----------------------------
+def calcular_alteracao_vencimento():
+    global texto_cliente_vencimento, texto_ordem_vencimento
     try:
-        # Captura os dados digitados
-        vencimento_atual = int(campo_vencimento1.get())
-        vencimento_novo = int(campo_vencimento2.get())
-        valor_plano = float(campo_valor.get().replace(',', '.'))
+        vencimento_atual = int(entry_vencimento_atual.get())
+        vencimento_novo = int(entry_vencimento_novo.get())
+        valor_plano = float(entry_valor_plano_vencimento.get().replace(",", "."))
 
-        # Lógica do cálculo
-        if(vencimento_atual < vencimento_novo):
+        if vencimento_atual < vencimento_novo:
             dias_proporcionais = vencimento_novo - vencimento_atual
         else:
             dias_proporcionais = (30 - vencimento_atual) + vencimento_novo
 
-        diaria_plano = valor_plano / 30
-        proporcional = diaria_plano * dias_proporcionais
-        valor_total = proporcional + valor_plano
+        diaria = valor_plano / 30
+        valor_proporcional = diaria * dias_proporcionais
+        valor_total = valor_plano + valor_proporcional
 
-        # Exibir os resultado - Mandar pro cliente
-        texto2 = (
-            f"realizando a troca de vencimento do dia *{vencimento_atual}* para o dia *{vencimento_novo}*, o sistema irá calcular o *pro-rata* de *{dias_proporcionais} dias* , e isso dará o valor de *R$ {proporcional:.2f}*, que será adicionado na sua proxima fatura, que ficará um total de {valor_total} para data escolhida que seria *{vencimento_novo:}/XX*,  e as próximas faturas voltam para o valor real do seu plano que é *R${valor_plano:.2f}*. Posso seguir com a alteração de vencimento ?"
-            )
-        label_resultado2.configure(text=texto)
-        label_cliente2.configure(text=texto2)
-        global texto_pronto2
-        texto_pronto2 = texto2
-
-        # Exibir os resultados - ORDEM
-        label_resultado2.configure(text=f"Proporcional: R$ {proporcional:.2f}\nValor total: R$ {valor_total:.2f}")
-        texto = (
-            f"Alteração de Vencimento\n\n"
-            f"Vencimento antigo: dia {vencimento_atual}\n"
-            f"Novo vencimento: dia {vencimento_novo}\n"
-            f"Dias proporcionais: {dias_proporcionais}\n"
-            f"Valor proporcional: R${proporcional:.2f}\n"
-            f"Valor total: R${valor_total:.2f}"
+        texto_cliente_vencimento = (
+            f"O Sr(a) solicitou a mudança do vencimento do dia {vencimento_atual} para {vencimento_novo}.\n"
+            f"Serão cobrados {dias_proporcionais} dias proporcionais no valor de R$ {valor_proporcional:.2f},\n"
+            f"Totalizando R$ {valor_total:.2f} na próxima fatura, para o dia {vencimento_novo}/XX.\n\n"
+            "Posso seguir com a alteração?"
         )
-        global texto_pronto
-        texto_pronto = texto # guarda para o botão "Copiar"
+
+
+        texto_ordem_vencimento = (
+            f"Vencimento Atual: {vencimento_atual}\n"
+            f"Novo vencimento: {vencimento_novo}\n"
+            f"Dias proporcionais: {dias_proporcionais}\n"
+            f"Valor proporcional: R$ {valor_proporcional:.2f}\n"
+            f"Total nova fatura: R$ {valor_total:.2f}"
+        )
+
+        label_texto_cliente2.configure(text=texto_cliente_vencimento)
+        label_texto_ordem2.configure(text=texto_ordem_vencimento)
+
     except ValueError:
-        messagebox.showerror("Erro", "Digite apenas números válidos.")
+        messagebox.showerror("Erro", "Digite valores numéricos válidos.")
 
-# --- ABA 2: Layout ---
-frame2 = tabview.tab("Alteração de Vencimento")
-# label e campo: vencimento atual
-label_vencimento1 = ctk.CTkLabel(frame2,text='Data de vencimento atual.')
-label_vencimento1.pack(pady=10)
-campo_vencimento1 = ctk.CTkEntry(frame2,placeholder_text='Digite o vencimento atual')
-campo_vencimento1.pack(pady=10)
-# Label e campo: novo vencimento
-label_vencimento2 = ctk.CTkLabel(frame2,text='Nova data de vencimento:')
-label_vencimento2.pack(pady=10)
-campo_vencimento2 = ctk.CTkEntry(frame2, placeholder_text='Digite o novo vencimento (1-30)')
-campo_vencimento2.pack(pady=5)
-# Label e campo: valor do plano
-label_valor = ctk.CTkLabel(frame2, text='Valor atual do plano')
-label_valor.pack(pady=5)
-campo_valor = ctk.CTkEntry(frame2, placeholder_text='Digite o valor (ex: 100.00)')
-campo_valor.pack(pady=5)
-# Botão de calcular
-botao_calcular_vencimento  = ctk.CTkButton(frame2, text='Calcular',command=calcularProporcionalVencimento)
-botao_calcular_vencimento.pack(pady=15)
-# Label do texto final
-label_cliente2 = ctk.CTkLabel(frame2, text='', font=('Arial', 12), wraplength=380, justify='left')
-label_cliente2.pack(pady=10)
-# Label da ordem de serviço
-label_resultado2 = ctk.CTkLabel(frame2, text='', font=('Arial', 12), wraplength=380, justify='left')
-label_resultado2.pack(pady=10)
-
-def copiar_texto():
+# -----------------------------
+# Função: Calcular Dias: CANCELAMENTO OU DESCONTO
+# -----------------------------
+def  calcular_dias():
+    global texto_cliente_dias, texto_ordem_dias
     try:
+        valor_plano = float(entry_valor_plano.get().replace(",", "."))
+        dias_proporcional = int(entry_dias_proporcional.get())
+        valor_proporcional = (valor_plano / 30) * dias_proporcional
+
+        texto_cliente_dias = (
+            f"O Sr(a) receberá um desconto de R${valor_proporcional:.2f} em sua próxima fatura devido a {dias_proporcional} dias sem conexão.\n"
+            "Seu caso já foi repassado para o setor financeiro, somente aguardar que o mesmo fornecerá o devido desconto em sua proxima fatura"
+        )
+
+        texto_ordem_dias = (
+            f"Em sistema consta que o senhor utilizou {dias_proporcional} dias da nossa conexão, neste caso, será cobrado um valor de R${valor_proporcional:.2f}, relacionado a este periodo de conexão ativa."
+        )
+
+        label_texto_desconto.configure(text=texto_cliente_dias)
+        label_texto_cancelamento.configure(text=texto_ordem_dias)
+
+    except ValueError:
+        messagebox.showerror("Erro", "Digite valores númericos válidos.")
+
+# -----------------------------
+# Funções de Cópia - PLANO
+# -----------------------------
+def copiar_cliente_plano():
+    if texto_cliente_plano:
         app.clipboard_clear()
-        app.clipboard_append(texto_pronto)
-        messagebox.showinfo("Copiado", "Texto copiado para a área de transferência!")
-    except:
-        messagebox.showerror("Erro", "Verifique se todos os campos foram preenchidos corretamente.")
+        app.clipboard_append(texto_cliente_plano)
+        messagebox.showinfo("Copiado", "Texto do cliente copiado.")
 
-def copiar_texto2():
-    try:
+def copiar_ordem_plano():
+    if texto_ordem_plano:
         app.clipboard_clear()
-        app.clipboard_append(texto_pronto2)
-        messagebox.showinfo("Copiado", "Texto copiado para a área de transferência!")
-    except:
-        messagebox.showerror("Erro", "Verifique se todos os campos foram preenchidos corretamente.")
-# Botão de copiar - TEXTO CLIENTE
-botao_copiar_cliente = ctk.CTkButton(app, text="Copiar Para enviar para cliente", command=copiar_texto)
-botao_copiar_cliente.pack(pady=10)
+        app.clipboard_append(texto_ordem_plano)
+        messagebox.showinfo("Copiado", "Texto da ordem copiado.")
 
-# Botão de copiar - TEXTO ORDEM
-botao_copiar_ordem = ctk.CTkButton(app, text="Copiar para anexar em ordem", command=copiar_texto2)
-botao_copiar_ordem.pack(pady=10)
+# -----------------------------
+# Funções de Cópia - VENCIMENTO
+# -----------------------------
+def copiar_cliente_vencimento():
+    if texto_cliente_vencimento:
+        app.clipboard_clear()
+        app.clipboard_append(texto_cliente_vencimento)
+        messagebox.showinfo("Copiado", "Texto do cliente copiado.")
 
-# Rodapé com copyright
-label_copyright = ctk.CTkLabel(
-    app,
-    text="© 2025 Joaquim 'Joather' Ferreira, Aquiles Alves, Vitor 'Stewart' Glennon. Todos os direitos reservados.",
-    font=("Arial", 10),
-    text_color="gray"
-)
-label_copyright.pack(anchor='s', pady=5)
-# Iniciar o loop
+def copiar_ordem_vencimento():
+    if texto_ordem_vencimento:
+        app.clipboard_clear()
+        app.clipboard_append(texto_ordem_vencimento)
+        messagebox.showinfo("Copiado", "Texto da ordem copiado.")
+
+# -----------------------------
+# Funções de Cópia - DIAS
+# -----------------------------
+def copiar_cliente_dias():
+    if texto_cliente_dias:
+        app.clipboard_clear()
+        app.clipboard_append(texto_cliente_dias)
+        messagebox.showinfo("Copiado", "Texto do cliente copiado.")
+
+def copiar_ordem_dias():
+    if texto_ordem_dias:
+        app.clipboard_clear()
+        app.clipboard_append(texto_ordem_dias)
+        messagebox.showinfo("Copiado", "Texto da ordem copiado.")
+
+# -----------------------------
+# Layout - Aba: Alteracao de Plano
+# -----------------------------
+frame_plano = tabview.tab("Alteracao de Plano")
+
+entry_valor_plano_atual = ctk.CTkEntry(frame_plano, placeholder_text="Valor do plano atual")
+entry_valor_plano_atual.pack(pady=5)
+entry_valor_plano_novo = ctk.CTkEntry(frame_plano, placeholder_text="Valor do novo plano")
+entry_valor_plano_novo.pack(pady=5)
+entry_dia_vencimento = ctk.CTkEntry(frame_plano, placeholder_text="Dia do vencimento")
+entry_dia_vencimento.pack(pady=5)
+entry_dia_alteracao = ctk.CTkEntry(frame_plano, placeholder_text="Dia da alteracao")
+entry_dia_alteracao.pack(pady=5)
+
+botao_calcular_plano = ctk.CTkButton(frame_plano, text="Calcular", command=calcular_alteracao_plano)
+botao_calcular_plano.pack(pady=10)
+
+frame_cliente1 = ctk.CTkFrame(frame_plano)
+frame_cliente1.pack(fill="x", padx=10, pady=5)
+ctk.CTkLabel(frame_cliente1, text="Texto para o Cliente", font=('Arial', 14, 'bold')).pack()
+label_texto_cliente1 = ctk.CTkLabel(frame_cliente1, text="", wraplength=550, justify="left")
+label_texto_cliente1.pack(pady=5)
+ctk.CTkButton(frame_cliente1, text="Copiar Texto Cliente", command=copiar_cliente_plano).pack(pady=5)
+
+frame_ordem1 = ctk.CTkFrame(frame_plano)
+frame_ordem1.pack(fill="x", padx=10, pady=5)
+ctk.CTkLabel(frame_ordem1, text="Texto para Ordem", font=('Arial', 14, 'bold')).pack()
+label_texto_ordem1 = ctk.CTkLabel(frame_ordem1, text="", wraplength=550, justify="left")
+label_texto_ordem1.pack(pady=5)
+ctk.CTkButton(frame_ordem1, text="Copiar Texto Ordem", command=copiar_ordem_plano).pack(pady=5)
+
+# -----------------------------
+# Layout - Aba: Alteracao de Vencimento
+# -----------------------------
+frame_vencimento = tabview.tab("Alteracao de Vencimento")
+
+entry_vencimento_atual = ctk.CTkEntry(frame_vencimento, placeholder_text="Vencimento atual")
+entry_vencimento_atual.pack(pady=5)
+entry_vencimento_novo = ctk.CTkEntry(frame_vencimento, placeholder_text="Novo vencimento")
+entry_vencimento_novo.pack(pady=5)
+entry_valor_plano_vencimento = ctk.CTkEntry(frame_vencimento, placeholder_text="Valor do plano")
+entry_valor_plano_vencimento.pack(pady=5)
+
+botao_calcular_vencimento = ctk.CTkButton(frame_vencimento, text="Calcular", command=calcular_alteracao_vencimento)
+botao_calcular_vencimento.pack(pady=10)
+
+frame_cliente2 = ctk.CTkFrame(frame_vencimento)
+frame_cliente2.pack(fill="x", padx=10, pady=5)
+ctk.CTkLabel(frame_cliente2, text="Texto para o Cliente", font=('Arial', 14, 'bold')).pack()
+label_texto_cliente2 = ctk.CTkLabel(frame_cliente2, text="", wraplength=550, justify="left")
+label_texto_cliente2.pack(pady=5)
+ctk.CTkButton(frame_cliente2, text="Copiar Texto Cliente", command=copiar_cliente_vencimento).pack(pady=5)
+
+frame_ordem2 = ctk.CTkFrame(frame_vencimento)
+frame_ordem2.pack(fill="x", padx=10, pady=5)
+
+label_texto_ordem2 = ctk.CTkLabel(frame_ordem2, text="", wraplength=550, justify="left")
+label_texto_ordem2.pack(pady=5)
+ctk.CTkButton(frame_ordem2, text="Copiar Texto Ordem", command=copiar_ordem_vencimento).pack(pady=5)
+
+# -----------------------------
+# Layout - Aba: Proporcional de Dias
+# -----------------------------
+frame_dias = tabview.tab("Desconto ou Cancelamento")
+
+label_valor_plano = ctk.CTkLabel(frame_dias, text="Digite o valor do plano")
+label_valor_plano.pack(pady=0)
+entry_valor_plano = ctk.CTkEntry(frame_dias, placeholder_text="Valor do Plano")
+entry_valor_plano.pack(pady=(0, 20))
+label_dias_proporcional = ctk.CTkLabel(frame_dias, text="Digite os dias para o calculo de proporcional")
+label_dias_proporcional.pack(pady=0)
+entry_dias_proporcional = ctk.CTkEntry(frame_dias, placeholder_text="Digite os dias para o calculo")
+entry_dias_proporcional.pack(pady=(0, 20))
+
+botao_calcular_proporcional = ctk.CTkButton(frame_dias, text="Calcular", command=calcular_dias)
+botao_calcular_proporcional.pack(pady=10)
+
+frame_desconto = ctk.CTkFrame(frame_dias)
+frame_desconto.pack(fill="x", padx=10, pady=5)
+ctk.CTkLabel(frame_desconto, text="Texto para Descontos", font=('Arial', 14, 'bold')).pack()
+label_texto_desconto = ctk.CTkLabel(frame_desconto, text="", wraplength=550, justify="left")
+label_texto_desconto.pack(pady=5)
+ctk.CTkButton(frame_desconto, text="Texto para Desconto", command=copiar_cliente_dias).pack(pady=5)
+
+frame_cancelamento = ctk.CTkFrame(frame_dias)
+frame_cancelamento.pack(fill="x", padx=10, pady=5)
+ctk.CTkLabel(frame_cancelamento, text="Texto para cancelamentos", font=('Arial', 14, 'bold')).pack()
+label_texto_cancelamento = ctk.CTkLabel(frame_cancelamento, text="", wraplength=550, justify="left")
+label_texto_cancelamento.pack(pady=5)
+ctk.CTkButton(frame_cancelamento, text="Texto para Cancelamento", command=copiar_ordem_dias).pack(pady=5)
+
+# -----------------------------
+# Rodapé
+# -----------------------------
+ctk.CTkLabel(app, text="\u00a9 2025 Joaquim 'Joather' Ferreira, Aquiles Alves, Vitor 'Stewart' Glennon.", font=("Arial", 10), text_color="gray").pack(pady=10)
+
+# Iniciar
 app.mainloop()
