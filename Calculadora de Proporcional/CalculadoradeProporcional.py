@@ -244,6 +244,8 @@ frame_ordem2.pack(fill="x", padx=10, pady=5)
 
 label_texto_ordem2 = ctk.CTkLabel(frame_ordem2, text="", wraplength=550, justify="left")
 label_texto_ordem2.pack(pady=5)
+ctk.CTkLabel(frame_cliente2, text="Texto para o Cliente", font=('Arial', 14, 'bold')).pack()
+label_texto_cliente2 = ctk.CTkLabel(frame_cliente2, text="", wraplength=550, justify="left")
 ctk.CTkButton(frame_ordem2, text="Copiar Texto Ordem", command=copiar_ordem_vencimento).pack(pady=5)
 
 # -----------------------------
