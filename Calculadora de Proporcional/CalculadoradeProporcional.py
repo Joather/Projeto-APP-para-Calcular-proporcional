@@ -7,7 +7,7 @@ ctk.set_default_color_theme('green') # Cor dos botões e destaques
 
 app = ctk.CTk()
 app.title("Calculadora de Proporcional")
-app.geometry("620x600")
+app.geometry("620x650")
 
 # Configurando as abas
 tabview = ctk.CTkTabview(app, width=600)
@@ -97,7 +97,16 @@ def calcularProporcionalVencimento():
         proporcional = diaria_plano * dias_proporcionais
         valor_total = proporcional + valor_plano
 
-        # Exibir os resultados
+        # Exibir os resultado - Mandar pro cliente
+        texto2 = (
+            f"realizando a troca de vencimento do dia *{vencimento_atual}* para o dia *{vencimento_novo}*, o sistema irá calcular o *pro-rata* de *{dias_proporcionais} dias* , e isso dará o valor de *R$ {proporcional:.2f}*, que será adicionado na sua proxima fatura, que ficará um total de {valor_total} para data escolhida que seria *{vencimento_novo:}/XX*,  e as próximas faturas voltam para o valor real do seu plano que é *R${valor_plano:.2f}*. Posso seguir com a alteração de vencimento ?"
+            )
+        label_resultado2.configure(text=texto)
+        label_cliente2.configure(text=texto2)
+        global texto_pronto2
+        texto_pronto2 = texto2
+
+        # Exibir os resultados - ORDEM
         label_resultado2.configure(text=f"Proporcional: R$ {proporcional:.2f}\nValor total: R$ {valor_total:.2f}")
         texto = (
             f"Alteração de Vencimento\n\n"
@@ -107,7 +116,6 @@ def calcularProporcionalVencimento():
             f"Valor proporcional: R${proporcional:.2f}\n"
             f"Valor total: R${valor_total:.2f}"
         )
-        label_resultado2.configure(text=texto)
         global texto_pronto
         texto_pronto = texto # guarda para o botão "Copiar"
     except ValueError:
@@ -134,6 +142,9 @@ campo_valor.pack(pady=5)
 botao_calcular_vencimento  = ctk.CTkButton(frame2, text='Calcular',command=calcularProporcionalVencimento)
 botao_calcular_vencimento.pack(pady=15)
 # Label do texto final
+label_cliente2 = ctk.CTkLabel(frame2, text='', font=('Arial', 12), wraplength=380, justify='left')
+label_cliente2.pack(pady=10)
+# Label da ordem de serviço
 label_resultado2 = ctk.CTkLabel(frame2, text='', font=('Arial', 12), wraplength=380, justify='left')
 label_resultado2.pack(pady=10)
 
@@ -143,18 +154,30 @@ def copiar_texto():
         app.clipboard_append(texto_pronto)
         messagebox.showinfo("Copiado", "Texto copiado para a área de transferência!")
     except:
-        messagebox.showerror("Erro", "Nenhum texto para copiar ainda.")
-# Botão de copiar
-botao_copiar = ctk.CTkButton(app, text="Copiar Texto", command=copiar_texto)
-botao_copiar.pack(pady=10)
+        messagebox.showerror("Erro", "Verifique se todos os campos foram preenchidos corretamente.")
+
+def copiar_texto2():
+    try:
+        app.clipboard_clear()
+        app.clipboard_append(texto_pronto2)
+        messagebox.showinfo("Copiado", "Texto copiado para a área de transferência!")
+    except:
+        messagebox.showerror("Erro", "Verifique se todos os campos foram preenchidos corretamente.")
+# Botão de copiar - TEXTO CLIENTE
+botao_copiar_cliente = ctk.CTkButton(app, text="Copiar Para enviar para cliente", command=copiar_texto)
+botao_copiar_cliente.pack(pady=10)
+
+# Botão de copiar - TEXTO ORDEM
+botao_copiar_ordem = ctk.CTkButton(app, text="Copiar para anexar em ordem", command=copiar_texto2)
+botao_copiar_ordem.pack(pady=10)
 
 # Rodapé com copyright
 label_copyright = ctk.CTkLabel(
     app,
-    text="© 2025 Joaquim 'Joather' Ferreira, Aquiles Alves, Vitor 'Stew' Glennon. Todos os direitos reservados.",
+    text="© 2025 Joaquim 'Joather' Ferreira, Aquiles Alves, Vitor 'Stewart' Glennon. Todos os direitos reservados.",
     font=("Arial", 10),
     text_color="gray"
 )
-label_copyright.pack(side="bottom", pady=5)
+label_copyright.pack(anchor='s', pady=5)
 # Iniciar o loop
 app.mainloop()
