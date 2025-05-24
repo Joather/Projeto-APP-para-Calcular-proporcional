@@ -51,10 +51,10 @@ def calcular_alteracao_plano():
         valor_total = proporcional_atual + proporcional_novo
 
         texto_cliente_plano = (
-            f"Realizando a troca de plano no dia {dia_alteracao}, o valor proporcional a ser pago será:",
-            f"\n- {dias_plano_atual} dias do plano atual (R$ {proporcional_atual:.2f})",
-            f"\n- {dias_plano_novo} dias do novo plano (R$ {proporcional_novo:.2f})",
-            f"\nTotal na próxima fatura: R$ {valor_total:.2f}, que será para a data {dia_vencimento}/XX\n\n"
+            f"Realizando a troca de plano no *dia {dia_alteracao}*, o valor proporcional a ser pago será:",
+            f"\n- *{dias_plano_atual}* dias do plano atual *(R$ {proporcional_atual:.2f})*",
+            f"\n- *{dias_plano_novo}* dias do novo plano *(R$ {proporcional_novo:.2f})*",
+            f"\nTotal na próxima fatura: *R$ {valor_total:.2f}*, que será para a data *{dia_vencimento}*/XX\n\n"
             "Posso seguir com a alteração?"
         )
         texto_cliente_plano = "".join(texto_cliente_plano)
@@ -95,9 +95,9 @@ def calcular_alteracao_vencimento():
         valor_total = valor_plano + valor_proporcional
 
         texto_cliente_vencimento = (
-            f"O Sr(a) solicitou a mudança do vencimento do dia {vencimento_atual} para {vencimento_novo}.\n"
-            f"Serão cobrados {dias_proporcionais} dias proporcionais no valor de R$ {valor_proporcional:.2f},\n"
-            f"Totalizando R$ {valor_total:.2f} na próxima fatura, para o dia {vencimento_novo}/XX.\n\n"
+            f"O Sr(a) solicitou a mudança do vencimento do dia *{vencimento_atual}* para *{vencimento_novo}*.\n"
+            f"Serão cobrados *{dias_proporcionais}* dias proporcionais no valor de *R${valor_proporcional:.2f}*,\n"
+            f"Totalizando *R${valor_total:.2f}* na próxima fatura, para o dia *{vencimento_novo}/XX.*\n\n"
             "Posso seguir com a alteração?"
         )
 
@@ -127,12 +127,11 @@ def  calcular_dias():
         valor_proporcional = (valor_plano / 30) * dias_proporcional
 
         texto_cliente_dias = (
-            f"O Sr(a) receberá um desconto de R${valor_proporcional:.2f} em sua próxima fatura devido a {dias_proporcional} dias sem conexão.\n"
-            "Seu caso já foi repassado para o setor financeiro, somente aguardar que o mesmo fornecerá o devido desconto em sua proxima fatura"
+            f"Conforme verificado, aplicado um desconto de *R${valor_proporcional:.2f}* devido a *{dias_proporcional} dias* sem conexão. Fatura ajustada para *R${valor_plano - valor_proporcional:.2f}*"
         )
 
         texto_ordem_dias = (
-            f"Em sistema consta que o senhor utilizou {dias_proporcional} dias da nossa conexão, neste caso, será cobrado um valor de R${valor_proporcional:.2f}, relacionado a este periodo de conexão ativa."
+            f"Conforme verificado, será cobrado um valor de *R${valor_proporcional:.2f}* devido a *{dias_proporcional} dias* utilizados de conexão. a fatura ficará no valor de *R${valor_proporcional:.2f}*"
         )
 
         label_texto_desconto.configure(text=texto_cliente_dias)
@@ -234,6 +233,7 @@ botao_calcular_vencimento.pack(pady=10)
 
 frame_cliente2 = ctk.CTkFrame(frame_vencimento)
 frame_cliente2.pack(fill="x", padx=10, pady=5)
+
 ctk.CTkLabel(frame_cliente2, text="Texto para o Cliente", font=('Arial', 14, 'bold')).pack()
 label_texto_cliente2 = ctk.CTkLabel(frame_cliente2, text="", wraplength=550, justify="left")
 label_texto_cliente2.pack(pady=5)
@@ -242,10 +242,9 @@ ctk.CTkButton(frame_cliente2, text="Copiar Texto Cliente", command=copiar_client
 frame_ordem2 = ctk.CTkFrame(frame_vencimento)
 frame_ordem2.pack(fill="x", padx=10, pady=5)
 
+ctk.CTkLabel(frame_ordem2, text="Texto para o Ordem", font=('Arial', 14, 'bold')).pack()
 label_texto_ordem2 = ctk.CTkLabel(frame_ordem2, text="", wraplength=550, justify="left")
 label_texto_ordem2.pack(pady=5)
-ctk.CTkLabel(frame_cliente2, text="Texto para o Cliente", font=('Arial', 14, 'bold')).pack()
-label_texto_cliente2 = ctk.CTkLabel(frame_cliente2, text="", wraplength=550, justify="left")
 ctk.CTkButton(frame_ordem2, text="Copiar Texto Ordem", command=copiar_ordem_vencimento).pack(pady=5)
 
 # -----------------------------
