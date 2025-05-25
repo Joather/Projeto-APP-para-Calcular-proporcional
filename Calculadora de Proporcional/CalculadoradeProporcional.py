@@ -199,7 +199,11 @@ entry_dia_vencimento.pack(pady=5)
 entry_dia_alteracao = ctk.CTkEntry(frame_plano, placeholder_text="Dia da alteracao")
 entry_dia_alteracao.pack(pady=5)
 
-botao_calcular_plano = ctk.CTkButton(frame_plano, text="Calcular", command=calcular_alteracao_plano)
+botao_calcular_plano = ctk.CTkButton(frame_plano, 
+                                    text="Calcular", 
+                                    command=calcular_alteracao_plano, 
+                                    fg_color="#06EF05", hover_color="#94ff94", 
+                                    text_color="#333333")
 botao_calcular_plano.pack(pady=10)
 
 frame_cliente1 = ctk.CTkFrame(frame_plano)
@@ -281,7 +285,7 @@ ctk.CTkButton(frame_cancelamento, text="Texto para Cancelamento", command=copiar
 # -----------------------------
 # Rodapé
 # -----------------------------
-ctk.CTkLabel(app, text="\u00a9 2025 Joaquim 'Joather' Ferreira, Aquiles Alves, Vitor 'Stewart' Glennon.", font=("Arial", 10), text_color="gray").pack(pady=10)
+ctk.CTkLabel(app, text="\u00a9 2025 Joaquim 'Joather' Ferreira, Aquiles Alves Pereira, Vitor 'Stew' Glennon.", font=("Arial", 10), text_color="gray").pack(pady=10)
 
 # Iniciar
 app.mainloop()
