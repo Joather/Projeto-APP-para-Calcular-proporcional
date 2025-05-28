@@ -218,7 +218,7 @@ ctk.CTkButton(frame_cliente1,
             text="Copiar Texto Cliente", 
             fg_color="#06EF05", hover_color="#94ff94", 
             text_color="#333333",
-            command=copiar_cliente_plano).pack(pady=5) messi
+            command=copiar_cliente_plano).pack(pady=5)
 
 frame_ordem1 = ctk.CTkFrame(frame_plano)
 frame_ordem1.pack(fill="x", padx=10, pady=5)
