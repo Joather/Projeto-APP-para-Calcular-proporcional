@@ -14,8 +14,8 @@ app.configure(fg_color="#121212")
 
 # Tabs
 tabview = ctk.CTkTabview(app, 
-                         fg_color="#121212",
-                         width=600)
+                        fg_color="#121212",
+                        width=600,)
 tabview.pack(pady=20)
 tabview.add("Alteracao de Plano")
 tabview.add("Alteracao de Vencimento")
@@ -192,7 +192,7 @@ def copiar_ordem_dias():
 # Layout - Aba: Alteracao de Plano
 # -----------------------------
 frame_plano = tabview.tab("Alteracao de Plano")
-frame_plano.configure(fg_color="#1E1E1E")
+frame_plano.configure(fg_color="#1E1E1E", corner_radius=10)
 
 entry_valor_plano_atual = ctk.CTkEntry(frame_plano, placeholder_text="Valor do plano atual")
 entry_valor_plano_atual.pack(pady=(15, 5))
@@ -210,7 +210,7 @@ botao_calcular_plano = ctk.CTkButton(frame_plano,
                                     text_color="#333333")
 botao_calcular_plano.pack(pady=10)
 
-frame_cliente1 = ctk.CTkFrame(frame_plano, fg_color="#1E1E1E")
+frame_cliente1 = ctk.CTkFrame(frame_plano, fg_color="#1E1E1E") 
 frame_cliente1.pack(fill="x", padx=10, pady=5)
 ctk.CTkLabel(frame_cliente1, 
             text_color="#e0e0e0",
@@ -238,7 +238,7 @@ ctk.CTkButton(frame_ordem1,
 # Layout - Aba: Alteracao de Vencimento
 # -----------------------------
 frame_vencimento = tabview.tab("Alteracao de Vencimento")
-frame_vencimento.configure(fg_color="#1E1E1E")
+frame_vencimento.configure(fg_color="#1E1E1E", corner_radius=10)
 
 entry_vencimento_atual = ctk.CTkEntry(frame_vencimento, placeholder_text="Vencimento atual")
 entry_vencimento_atual.pack(pady=(15, 5))
@@ -279,7 +279,7 @@ ctk.CTkButton(frame_ordem2,
 # Layout - Aba: Proporcional de Dias
 # -----------------------------
 frame_dias = tabview.tab("Desconto ou Cancelamento")
-frame_dias.configure(fg_color="#1E1E1E")
+frame_dias.configure(fg_color="#1E1E1E", corner_radius=10)
 
 label_valor_plano = ctk.CTkLabel(frame_dias, text="Digite o valor do plano")
 label_valor_plano.pack(pady=0)
