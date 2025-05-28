@@ -3,20 +3,56 @@
 import customtkinter as ctk
 from tkinter import messagebox
 
-# Configuração inicial
+# Configurações iniciais
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("green")
 
 app = ctk.CTk()
 app.title("Calculadora de Proporcional")
 app.geometry("640x650")
+app.configure(fg_color="#121212")
 
-# Tabs
-tabview = ctk.CTkTabview(app, width=600)
-tabview.pack(pady=10)
-tabview.add("Alteracao de Plano")
-tabview.add("Alteracao de Vencimento")
-tabview.add("Desconto ou Cancelamento")
+# Cabeçalho das abas (botões)
+tab_header = ctk.CTkFrame(app, fg_color="#121212")
+tab_header.pack(pady=(0, 0), fill="x")
+
+# Conteúdo das abas (frames)
+content_frame = ctk.CTkFrame(app, fg_color="#1f1f1f")
+content_frame.pack(padx=0, pady=(0, 0), fill="both", expand=True)
+
+# Função para alternar abas
+def show_frame(frame):
+    for f in frames.values():
+        f.pack_forget()
+    frame.pack(fill="both", expand=True)
+
+# Criação dos frames de cada aba
+frames = {
+    "Alteracao de Plano": ctk.CTkFrame(content_frame, fg_color="#252525"),
+    "Alteracao de Vencimento": ctk.CTkFrame(content_frame, fg_color="#252525"),
+    "Desconto ou Cancelamento": ctk.CTkFrame(content_frame, fg_color="#252525")
+}
+
+# Exemplo de conteúdo para teste
+ctk.CTkLabel(frames["Alteracao de Plano"], text="Conteúdo da Aba: Alteração de Plano").pack(pady=20)
+ctk.CTkLabel(frames["Alteracao de Vencimento"], text="Conteúdo da Aba: Alteração de Vencimento").pack(pady=20)
+ctk.CTkLabel(frames["Desconto ou Cancelamento"], text="Conteúdo da Aba: Desconto ou Cancelamento").pack(pady=20)
+
+# Criação dos botões de navegação
+aba1 = ctk.CTkButton(tab_header, text="Alteração de Plano", command=lambda: show_frame(frames["Alteracao de Plano"]),
+                     fg_color="#32CD32", hover_color="#94ff94")
+aba2 = ctk.CTkButton(tab_header, text="Alteração de Vencimento", command=lambda: show_frame(frames["Alteracao de Vencimento"]),
+                     fg_color="#32CD32", hover_color="#94ff94")
+aba3 = ctk.CTkButton(tab_header, text="Desconto ou Cancelamento", command=lambda: show_frame(frames["Desconto ou Cancelamento"]),
+                     fg_color="#32CD32", hover_color="#94ff94")
+
+# Posicionamento dos botões
+aba1.pack(side="left", padx=10, pady=10)
+aba2.pack(side="left", padx=10, pady=10)
+aba3.pack(side="left", padx=10, pady=10)
+
+# Mostrar aba inicial
+show_frame(frames["Alteracao de Plano"])
 
 # Variáveis globais para copiar
 texto_cliente_plano = ""
@@ -188,7 +224,7 @@ def copiar_ordem_dias():
 # -----------------------------
 # Layout - Aba: Alteracao de Plano
 # -----------------------------
-frame_plano = tabview.tab("Alteracao de Plano")
+frame_plano = frames["Alteracao de Plano"]
 
 entry_valor_plano_atual = ctk.CTkEntry(frame_plano, placeholder_text="Valor do plano atual")
 entry_valor_plano_atual.pack(pady=5)
@@ -230,7 +266,7 @@ ctk.CTkButton(frame_ordem1, text="Copiar Texto Ordem", command=copiar_ordem_plan
 # -----------------------------
 # Layout - Aba: Alteracao de Vencimento
 # -----------------------------
-frame_vencimento = tabview.tab("Alteracao de Vencimento")
+frame_vencimento = frames["Alteracao de Vencimento"]
 
 entry_vencimento_atual = ctk.CTkEntry(frame_vencimento, placeholder_text="Vencimento atual")
 entry_vencimento_atual.pack(pady=5)
@@ -261,7 +297,7 @@ ctk.CTkButton(frame_ordem2, text="Copiar Texto Ordem", command=copiar_ordem_venc
 # -----------------------------
 # Layout - Aba: Proporcional de Dias
 # -----------------------------
-frame_dias = tabview.tab("Desconto ou Cancelamento")
+frame_dias = frames["Desconto ou Cancelamento"]
 
 label_valor_plano = ctk.CTkLabel(frame_dias, text="Digite o valor do plano")
 label_valor_plano.pack(pady=0)
