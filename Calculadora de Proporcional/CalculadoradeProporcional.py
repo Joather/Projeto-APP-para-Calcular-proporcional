@@ -251,12 +251,12 @@ frame_plano.configure(corner_radius=10)
 scrollable_frame_plano = ctk.CTkScrollableFrame(frame_plano, width=600, height=400)
 scrollable_frame_plano.pack(fill="both", expand=True)
 
-label_valor_plano_atual = ctk.CTkLabel(scrollable_frame_plano, text="Digite o valor do plano atual:")
+label_valor_plano_atual = ctk.CTkLabel(scrollable_frame_plano, text="Digite o valor do plano atual (R$):")
 label_valor_plano_atual.pack(pady=0)
 entry_valor_plano_atual = ctk.CTkEntry(scrollable_frame_plano, placeholder_text="Valor do plano atual")
 entry_valor_plano_atual.pack(pady=(0, 15))
 
-label_valor_plano_novo = ctk.CTkLabel(scrollable_frame_plano, text="Digite o valor do plano novo:")
+label_valor_plano_novo = ctk.CTkLabel(scrollable_frame_plano, text="Digite o valor do plano novo (R$):")
 label_valor_plano_novo.pack(pady=0)
 entry_valor_plano_novo = ctk.CTkEntry(scrollable_frame_plano, placeholder_text="Valor do novo plano")
 entry_valor_plano_novo.pack(pady=(0, 15))
@@ -266,9 +266,9 @@ label_dia_vencimento.pack(pady=0)
 entry_dia_vencimento = ctk.CTkEntry(scrollable_frame_plano, placeholder_text="Dia do vencimento")
 entry_dia_vencimento.pack(pady=(0, 15))
 
-label_dia_alteracao = ctk.CTkLabel(scrollable_frame_plano, text="Digite o dia da Troca:")
+label_dia_alteracao = ctk.CTkLabel(scrollable_frame_plano, text="Digite o dia da troca:")
 label_dia_alteracao.pack(pady=0)
-entry_dia_alteracao = ctk.CTkEntry(scrollable_frame_plano, placeholder_text="Dia da alteracao")
+entry_dia_alteracao = ctk.CTkEntry(scrollable_frame_plano, placeholder_text="Dia da alteração")
 entry_dia_alteracao.pack(pady=(0, 0))
 
 botao_calcular_plano = ctk.CTkButton(scrollable_frame_plano, 
@@ -284,7 +284,7 @@ ctk.CTkLabel(frame_cliente1,
 label_texto_cliente1 = ctk.CTkLabel(frame_cliente1, text="", wraplength=650, justify="left")
 label_texto_cliente1.pack(pady=5)
 ctk.CTkButton(frame_cliente1,
-            text="Texto para o Cliente", 
+            text="Copiar Texto Cliente", 
             command=copiar_cliente_plano).pack(pady=5)
 
 frame_ordem1 = ctk.CTkFrame(scrollable_frame_plano)
@@ -350,11 +350,11 @@ frame_dias.configure(corner_radius=10)
 scrollable_frame_dias = ctk.CTkScrollableFrame(frame_dias, width=600, height=400)
 scrollable_frame_dias.pack(fill="both", expand=True)
 
-label_valor_plano = ctk.CTkLabel(scrollable_frame_dias, text="Digite o valor do plano")
+label_valor_plano = ctk.CTkLabel(scrollable_frame_dias, text="Digite o valor do plano (R$):")
 label_valor_plano.pack(pady=0)
-entry_valor_plano = ctk.CTkEntry(scrollable_frame_dias, placeholder_text="Valor do Plano")
+entry_valor_plano = ctk.CTkEntry(scrollable_frame_dias, placeholder_text="Valor do plano")
 entry_valor_plano.pack(pady=(0, 20))
-label_dias_proporcional = ctk.CTkLabel(scrollable_frame_dias, text="Digite os dias para o calculo de proporcional")
+label_dias_proporcional = ctk.CTkLabel(scrollable_frame_dias, text="Digite os dias para o calculo de proporcional:")
 label_dias_proporcional.pack(pady=0)
 entry_dias_proporcional = ctk.CTkEntry(scrollable_frame_dias, placeholder_text="Digite os dias para o calculo")
 entry_dias_proporcional.pack(pady=(0, 20))
@@ -365,19 +365,19 @@ botao_calcular_proporcional.pack(pady=10)
 
 frame_desconto = ctk.CTkFrame(scrollable_frame_dias)
 frame_desconto.pack(fill="x", padx=10, pady=5)
-ctk.CTkLabel(frame_desconto, text="Texto para Descontos").pack()
+ctk.CTkLabel(frame_desconto, text="Texto para Utilizar em Descontos").pack()
 label_texto_desconto = ctk.CTkLabel(frame_desconto, text="", wraplength=550, justify="left")
 label_texto_desconto.pack(pady=5)
 ctk.CTkButton(frame_desconto,
-            text="Texto para Desconto", command=copiar_cliente_dias).pack(pady=5)
+            text="Copiar Texto Descontos", command=copiar_cliente_dias).pack(pady=5)
 
 frame_cancelamento = ctk.CTkFrame(scrollable_frame_dias)
 frame_cancelamento.pack(fill="x", padx=10, pady=5)
-ctk.CTkLabel(frame_cancelamento, text="Texto para cancelamentos").pack()
+ctk.CTkLabel(frame_cancelamento, text="Texto para Utilizar em Cancelamentos").pack()
 label_texto_cancelamento = ctk.CTkLabel(frame_cancelamento, text="", wraplength=550, justify="left")
 label_texto_cancelamento.pack(pady=5)
 ctk.CTkButton(frame_cancelamento,
-            text="Texto para Cancelamento", command=copiar_ordem_dias).pack(pady=5)
+            text="Copiar Texto Cancelamentos", command=copiar_ordem_dias).pack(pady=5)
 
 # -----------------------------
 # Rodapé

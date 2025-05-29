@@ -139,17 +139,17 @@
       "macOS": {
         "family": "Nova Square",
         "size": 16,
-        "weight": "normal"
+        "weight": "bold"
       },
       "Windows": {
         "family": "Nova Square",
         "size": 16,
-        "weight": "normal"
+        "weight": "bold"
       },
       "Linux": {
         "family": "Nova Square",
         "size": 16,
-        "weight": "normal"
+        "weight": "bold"
       }
     }
 }
