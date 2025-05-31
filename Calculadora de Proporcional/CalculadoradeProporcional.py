@@ -67,7 +67,11 @@ def calcular_alteracao_plano():
         dia_vencimento = int(entry_dia_vencimento.get())
         dia_alteracao = int(entry_dia_alteracao.get())
 
-        if dia_alteracao > dia_vencimento:
+        if dia_vencimento == dia_alteracao:
+            ValueError
+            messagebox.showerror("Erro", "Se o cliente solicitou a troca do plano no mesmo dia do vencimento, não tem proporcional!!!")
+
+        elif dia_alteracao > dia_vencimento:
             dias_plano_atual = dia_alteracao - dia_vencimento
             dias_plano_novo = 30 - dias_plano_atual
         else:
@@ -121,11 +125,16 @@ def calcular_alteracao_vencimento():
         vencimento_atual = int(entry_vencimento_atual.get())
         vencimento_novo = int(entry_vencimento_novo.get())
         valor_plano = float(entry_valor_plano_vencimento.get().replace(",", "."))
-
-        if vencimento_atual < vencimento_novo:
+        
+        if vencimento_atual == vencimento_novo:
+            ValueError
+            messagebox.showerror("Erro", "Se o cliente solicitou a troca do plano no mesmo dia do vencimento, não tem proporcional!!!")
+        
+        elif vencimento_atual < vencimento_novo:
             dias_proporcionais = vencimento_novo - vencimento_atual
         else:
             dias_proporcionais = (30 - vencimento_atual) + vencimento_novo
+
 
         diaria = valor_plano / 30
         valor_proporcional = diaria * dias_proporcionais
