@@ -77,10 +77,20 @@ def calcular_alteracao_plano():
         else:
             dias_plano_atual = 30 - (dia_vencimento - dia_alteracao)
             dias_plano_novo = 30 - dias_plano_atual
+        
+        if dia_alteracao == 31:
+            dias_plano_atual = dias_plano_atual + 1
+            diaria_plano_atual = valor_plano_atual / 31
+            diaria_plano_novo = valor_plano_novo / 31
+        else:
+            diaria_plano_atual = valor_plano_atual / 30
+            diaria_plano_novo = valor_plano_novo / 30
 
-        proporcional_atual = (valor_plano_atual / 30) * dias_plano_atual
-        proporcional_novo = (valor_plano_novo / 30) * dias_plano_novo
+        proporcional_atual = diaria_plano_atual * dias_plano_atual
+        proporcional_novo = diaria_plano_novo * dias_plano_novo
         valor_total = proporcional_atual + proporcional_novo
+
+
 
         texto_cliente_plano = (
             f"Realizando a troca de plano no *dia {dia_alteracao}*, o valor proporcional a ser pago será:",
