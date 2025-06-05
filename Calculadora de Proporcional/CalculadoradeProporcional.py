@@ -79,9 +79,9 @@ def calcular_alteracao_plano():
             dias_plano_novo = 30 - dias_plano_atual
         
         if dia_alteracao == 31:
-            dias_plano_atual = dias_plano_atual + 1
             diaria_plano_atual = valor_plano_atual / 31
             diaria_plano_novo = valor_plano_novo / 31
+            dias_plano_novo = dias_plano_novo + 1
         else:
             diaria_plano_atual = valor_plano_atual / 30
             diaria_plano_novo = valor_plano_novo / 30
